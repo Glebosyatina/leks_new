@@ -675,7 +675,7 @@ namespace leks {
 		   //состояния
 		   enum class state {
 
-			   S0, S1, S1DOT, S2, S3, SE, S5,
+			   S0, S1, S1DOT, S2, S3, SE, S5, S6, S7, S8, S9, S11, S13, S14,
 			   SI,
 			   keyword, identifier, constant, str_constant, op_sign, comp_sign, separator
 		   } st = state::S0;
@@ -724,12 +724,19 @@ namespace leks {
 					word += code[i];
 					st = state::SI;
 					break;
+
+				case state::S13:
+					map_op_sign[word] = word;
+					word = "";
+					st = state::S0;
+					i--;
+					break;
 				default:
 					break;
 				}
 
 			}
-			if (Char::IsDigit(code[i])) {
+			else if (Char::IsDigit(code[i])) {
 				switch (st) {
 				case state::S0:
 				case state::S1: //идут цифры(конечное состояние)
@@ -746,19 +753,84 @@ namespace leks {
 					break;
 				}
 			}
-			if (code[i] == '+' || code[i] == '-' || code[i] == '*' || code[i] == '/') {
+			else if (code[i] == '+' || code[i] == '-' || code[i] == '*' || code[i] == '/') {
 
-				if ((code[i] == '+' || code[i] == '-') && st == state::S2) {
+				if ((code[i] == '+' || code[i] == '-') && st == state::S2) {//10E+2
 					word += code[i];
 					st = state::S3;
 				}
 
-			}
-			if (code[i] == '<' || code[i] == '>' || code[i] == '=') {
+				switch (st) {
+				case state::S0:
+					word += code[i];
+					st = state::S6;
+					break;
+
+				default:
+					break;
+				}
 
 			}
+			else if (code[i] == '&' || code[i] == '|') {
+				switch (st) {
+				case state::S0:
+					if (code[i] == '&') {
+						word += code[i];
+						st = state::S7;
+					}
+					else {
+						word += code[i];
+						st = state::S8; 
+					}
+					break;
 
-			if (code[i] == '.') {
+				case state::S7:
+				case state::S8: //&& || 
+					word += code[i];
+					st = state::S9;
+					break;
+				}
+			}
+			else if (code[i] == '=' || code[i]=='!') {
+				switch (st) {
+				case state::S0:
+					word += code[i];
+					st = state::S13;
+					break;
+				case state::S6:
+					if (code[i] == '=') {
+						word += code[i];
+						st = state::S9;
+					}
+					break;
+				case state::S13:
+					if (code[i] == '=') {
+						word += code[i];
+						st = state::S14;
+					}
+					break;
+				case state::S11:
+					if (code[i] == '=') {
+						word += code[i];
+						st = state::S14;
+					}
+					break;
+				default:
+					break;
+				}
+			}
+			else if (code[i] == '<' || code[i] == '>') {
+				switch (st) {
+				case state::S0:
+					word += code[i];
+					st = state::S11;
+					break;
+				default:
+					break;
+				}
+			}
+
+			else if (code[i] == '.') {
 				switch (st)
 				{
 				case state::S1:
@@ -772,7 +844,7 @@ namespace leks {
 
 
 			//пришел разделитель смотрим какое состояние и пишем лексему если конечное
-			if (code[i] == '\n' || code[i] == ' ' || code[i] == ',' || code[i] == '(' || code[i] == ')' || code[i] == '{' || code[i] == '}' || code[i] == '[' || code[i] == ']' || code[i] == ';') {
+			else if (code[i] == '\n' || code[i] == ' ' || code[i] == ',' || code[i] == '(' || code[i] == ')' || code[i] == '{' || code[i] == '}' || code[i] == '[' || code[i] == ']' || code[i] == ';') {
 
 				switch (st)
 				{
@@ -789,6 +861,20 @@ namespace leks {
 
 				case state::SI: //распознаем идентификатор
 					map_identifiers[word] = "id";
+					i--;
+					break;
+
+				case state::S6:
+				case state::S7:
+				case state::S8:
+				case state::S9:
+				case state::S13:// + - * / = !
+					map_op_sign[word] = word;
+					i--;
+					break;
+				case state::S11:// == != <= >=
+				case state::S14:
+					map_comp_sign[word] = word;
 					i--;
 					break;
 
@@ -848,7 +934,7 @@ namespace leks {
 			   this->identifiers_table->Rows->Clear();
 			   this->constants_table->Rows->Clear();
 			   this->op_sign_table->Rows->Clear();
-				this->comp_sign_table->Rows->Clear();
+			   this->comp_sign_table->Rows->Clear();
 			   this->separators_table->Rows->Clear();
 
 			   //delete tokens;
