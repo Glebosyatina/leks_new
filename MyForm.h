@@ -662,6 +662,7 @@ namespace leks {
 		richTextBoxSource->Text = ""; //поле ввода - Исходный код
 		richTextBoxProcessed->Text = ""; //поле ввода - Обработанный код
 		processedCode = ""; //обработанный код
+		code = "";
 		S = 0; //состояние
 		lineNum = 1; //количество строк
 	}
@@ -675,9 +676,9 @@ namespace leks {
 		   //состояния
 		   enum class state {
 
-			   S0, S1, S1DOT, S2, S3, SE, S5, S6, S7, S8, S9, S11, S13, S14,
-			   SI,
-			   keyword, identifier, constant, str_constant, op_sign, comp_sign, separator
+			   S0, S1, S1DOT, S2, S3, SE, S5, S6, S7, S8, S9, S10, S11, S13, S14, S15, S16, S17, S18, S19, S20, S21, S22, S23, S24, S25, S26,
+			   SI, SKEY
+			  
 		   } st = state::S0;
 
 
@@ -707,17 +708,74 @@ namespace leks {
 				case 'E':
 				case 'e':
 					switch (st) {
+
+					case state::S0:
+						word += code[i];
+						st = state::S15;
+						break;
+					case state::S17:
+						word += code[i];
+						st = state::SKEY;
+						break;
 					case state::S1:
 						word += code[i];
 						st = state::S2;
 						break;
 					default:
+						st = state::SI;
 						break;
 					}
+					break;
+				case 'l':
+					if (st == state::S15) {
+						word += code[i];
+						st = state::S16;
+					}
+					else {
+						st = state::SI;
+					}
+					break;
 
+				case 's':
+					if (st == state::S16) {
+						word += code[i];
+						st = state::S17;
+					}
+					else {
+						st = state::SI;
+					}
+					break;
+				case 'n':
+					if (st == state::S15) {
+						word += code[i];
+						st = state::S18;
+					}
+					else {
+						st = state::SI;
+					}
+					break;
+				case 'u':
+					if (st == state::S18) {
+						word += code[i];
+						st = state::S19;
+					}
+					else {
+						st = state::SI;
+					}
+					break;
+				case 'm':
+					if (st == state::S19) {
+						word += code[i];
+						st = state::SKEY;
+					}
+					else {
+						st = state::SI;
+					}
+					break;
 				default:
 					break;
 				}
+
 				switch (st) {
 				case state::S0:
 				case state::SI:
@@ -725,6 +783,7 @@ namespace leks {
 					st = state::SI;
 					break;
 
+				case state::S10:
 				case state::S13:
 					map_op_sign[word] = word;
 					word = "";
@@ -765,7 +824,22 @@ namespace leks {
 					word += code[i];
 					st = state::S6;
 					break;
-
+				case state::S6: // ++
+					word += code[i];
+					st = state::S10;
+					break;
+				case state::S10:
+					map_op_sign[word] = word;
+					word = "";
+					st = state::S0;
+					i--;
+					break;
+				case state::SI:
+					map_identifiers[word] = word;
+					word = "";
+					st = state::S0;
+					i--;
+					break;
 				default:
 					break;
 				}
@@ -863,11 +937,15 @@ namespace leks {
 					map_identifiers[word] = "id";
 					i--;
 					break;
-
+				case state::SKEY:
+					map_keywords[word] = "keyword";
+					i--;
+					break;
 				case state::S6:
 				case state::S7:
 				case state::S8:
 				case state::S9:
+				case state::S10:
 				case state::S13:// + - * / = !
 					map_op_sign[word] = word;
 					i--;
