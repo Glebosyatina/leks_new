@@ -677,7 +677,7 @@ namespace leks {
 		   enum class state {
 
 			   S0, S1, S1DOT, S2, S3, SE, S5, S6, S7, S8, S9, S10, S11, S13, S14, S15, S16, S17, S18, S19, S20, S21, S22, S23, S24, S25, S26, S27, S28, S29,
-			   S30, S31, S32,
+			   S30, S31, S32, S33, S34, S35, S36, S37, S38, S39, S40, S41, S42, S43, S44, S45, S46, S47, S48, S49,
 			   SI, SKEY
 
 		   } st = state::S0;
@@ -715,6 +715,7 @@ namespace leks {
 						st = state::S15;
 						break;
 					case state::S17://else
+					case state::S35://case
 						word += code[i];
 						st = state::SKEY;
 						break;
@@ -722,9 +723,13 @@ namespace leks {
 						word += code[i];
 						st = state::S22;
 						break;
-					case state::S30://extErn
+					case state::S30://break
 						word += code[i];
 						st = state::S31;
+						break;
+					case state::S47://double
+						word += code[i];
+						st = state::SKEY;
 						break;
 					case state::S1:	//10e+3
 						word += code[i];
@@ -755,6 +760,10 @@ namespace leks {
 						word += code[i];
 						st = state::SKEY;
 					}
+					else if (st == state::S46) {
+						word += code[i];
+						st = state::S47;
+					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {//это нужно для распознавания --l l++ и т.д
 						break;;
 					}
@@ -767,6 +776,14 @@ namespace leks {
 					if (st == state::S16) {
 						word += code[i];
 						st = state::S17;
+					}
+					else if (st == state::S34) {
+						word += code[i];
+						st = state::S35;
+					}
+					else if (st == state::S39) {
+						word += code[i];
+						st = state::S40;
 					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
@@ -784,6 +801,14 @@ namespace leks {
 						word += code[i];
 						st = state::SKEY;
 					}
+					else if (st == state::S38) {
+						word += code[i];
+						st = state::S39;
+					}
+					else if (st == state::S41) {
+						word += code[i];
+						st = state::S42;
+					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
 					}
@@ -799,6 +824,10 @@ namespace leks {
 					else if (st == state::S24) {
 						word += code[i];
 						st = state::S25;
+					}
+					else if (st == state::S44) {
+						word += code[i];
+						st = state::S45;
 					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
@@ -840,6 +869,18 @@ namespace leks {
 						word += code[i];
 						st = state::S26;
 					}
+					else if (st == state::S34) {
+						word += code[i];
+						st = state::S36;
+					}
+					else if (st == state::S40) {
+						word += code[i];
+						st = state::SKEY;
+					}
+					else if (st == state::S42) {
+						word += code[i];
+						st = state::SKEY;
+					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
 					}
@@ -855,6 +896,10 @@ namespace leks {
 					else if (st == state::S27) {
 						word += code[i];
 						st = state::S30;
+					}
+					else if (st == state::S49) {
+						word += code[i];
+						st = state::SKEY;
 					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
@@ -872,6 +917,14 @@ namespace leks {
 					else if (st == state::S31) {
 						word += code[i];
 						st = state::S32;
+					}
+					else if (st == state::S33) {
+						word += code[i];
+						st = state::S34;
+					}
+					else if (st == state::S48) {
+						word += code[i];
+						st = state::S49;
 					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
@@ -893,6 +946,14 @@ namespace leks {
 						word += code[i];
 						st = state::S29;
 					}
+					else if (st == state::S33) {
+						word += code[i];
+						st = state::S38;
+					}
+					else if (st == state::S43) {
+						word += code[i];
+						st = state::S44;
+					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
 					}
@@ -904,6 +965,10 @@ namespace leks {
 					if (st == state::S0) {
 						word += code[i];
 						st = state::S27;
+					}
+					else if (st == state::S45) {
+						word += code[i];
+						st = state::S46;
 					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
@@ -924,12 +989,69 @@ namespace leks {
 						st = state::SI;
 					}
 					break;
+				case 'c':
+					if (st == state::S0) {
+						word += code[i];
+						st = state::S33;
+					}
+					else if (st == state::S36) {
+						word += code[i];
+						st = state::S37;
+					}
+					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
+						break;;
+					}
+					else {
+						st = state::SI;
+					}
+					break;
+				case 'h':
+					if (st == state::S37) {
+						word += code[i];
+						st = state::SKEY;
+					}
+					else if (st == state::S33) {
+						word += code[i];
+						st = state::S48;
+					}
+					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
+						break;;
+					}
+					else {
+						st = state::SI;
+					}
+					break;
+				case 'i':
+					if (st == state::S0) {
+						word += code[i];
+						st = state::S41;
+					}
+					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
+						break;;
+					}
+					else {
+						st = state::SI;
+					}
+					break;
+				case 'd':
+					if (st == state::S0) {
+						word += code[i];
+						st = state::S43;
+					}
+					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
+						break;;
+					}
+					else {
+						st = state::SI;
+					}
+					break;
+
 
 				default:
 					if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {// распознать ==a --a ++a <a ...
 						break;
 					}
-					
+
 					st = state::SI;
 					break;
 				}
@@ -968,7 +1090,7 @@ namespace leks {
 					break;
 
 				default:
-					st = state::SI;
+
 					break;
 				}
 
@@ -1006,6 +1128,8 @@ namespace leks {
 					word += code[i];
 					break;
 				default:
+					word += code[i];
+					st = state::SI;
 					break;
 				}
 			}
@@ -1111,6 +1235,10 @@ namespace leks {
 					}
 					break;
 				default:
+					map_identifiers[word] = "id";
+					word = "";
+					st = state::S0;
+					i--;
 					break;
 				}
 			}
@@ -1133,6 +1261,10 @@ namespace leks {
 					st = state::S11;
 					break;
 				default:
+					map_identifiers[word] = "id";
+					word = "";
+					st = state::S0;
+					i--;
 					break;
 				}
 			}
@@ -1151,7 +1283,7 @@ namespace leks {
 
 
 			//пришел разделитель смотрим какое состояние и пишем лексему если конечное
-			else if (code[i] == '\n' || code[i] == ' ' || code[i] == ',' || code[i] == '(' || code[i] == ')' || code[i] == '{' || code[i] == '}' || code[i] == '[' || code[i] == ']' || code[i] == ';') {
+			else if (code[i] == '\n' || code[i] == ' ' || code[i] == ',' || code[i] == '(' || code[i] == ')' || code[i] == '{' || code[i] == '}' || code[i] == '[' || code[i] == ']' || code[i] == ':' || code[i] == ';') {
 
 				switch (st)
 				{
@@ -1190,6 +1322,8 @@ namespace leks {
 					break;
 
 				default:
+					map_identifiers[word] = "id";
+					i--;
 					break;
 				}
 
@@ -1239,6 +1373,7 @@ namespace leks {
 				break;
 
 			default:
+				map_identifiers[word] = "id";
 				break;
 			}
 
