@@ -678,7 +678,7 @@ namespace leks {
 
 			   S0, S1, S1DOT, S2, S3, SE, S5, S6, S7, S8, S9, S10, S11, S13, S14, S15, S16, S17, S18, S19, S20, S21, S22, S23, S24, S25, S26, S27, S28, S29,
 			   S30, S31, S32, S33, S34, S35, S36, S37, S38, S39, S40, S41, S42, S43, S44, S45, S46, S47, S48, S49, S50, S51, S52, S53, S54, S55, S56, S57,
-			   S58, S59, S60, S61, S62, S63, S64, S65, S66, S67, S68, S69,
+			   S58, S59, S60, S61, S62, S63, S64, S65, S66, S67, S68, S69, S70, S71, S72, S73, S74,
 			   SI, SKEY, SSTR
 
 		   } st = state::S0;
@@ -743,6 +743,10 @@ namespace leks {
 					case state::S69://while
 						word += code[i];
 						st = state::SKEY;
+						break;
+					case state::S70://while
+						word += code[i];
+						st = state::S71;
 						break;
 					case state::S1:	//10e+3
 						word += code[i];
@@ -859,6 +863,10 @@ namespace leks {
 						word += code[i];
 						st = state::S64;
 					}
+					else if (st == state::S74) {
+						word += code[i];
+						st = state::SKEY;
+					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
 					}
@@ -885,6 +893,10 @@ namespace leks {
 					else if (st == state::S64) {
 						word += code[i];
 						st = state::S65;
+					}
+					else if (st == state::S72) {
+						word += code[i];
+						st = state::S73;
 					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
@@ -955,6 +967,10 @@ namespace leks {
 						word += code[i];
 						st = state::S62;
 					}
+					else if (st == state::S71) {
+						word += code[i];
+						st = state::S72;
+					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
 					}
@@ -966,7 +982,11 @@ namespace leks {
 					}
 					break;
 				case 'r':
-					if (st == state::S22) {
+					if (st == state::S0) {
+						word += code[i];
+						st = state::S70;
+					}
+					else if (st == state::S22) {
 						word += code[i];
 						st = state::S23;
 					}
@@ -985,6 +1005,10 @@ namespace leks {
 					else if (st == state::S61) {
 						word += code[i];
 						st = state::SKEY;
+					}
+					else if (st == state::S73) {
+						word += code[i];
+						st = state::S74;
 					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
