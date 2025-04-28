@@ -1374,6 +1374,14 @@ namespace leks {
 					st = state::S0;
 					i--;
 					break;
+				case state::S11:
+				case state::S13:
+				case state::S14:
+					map_comp_sign[word] = word;
+					word = "";
+					st = state::S0;
+					i--;
+					break;
 				case state::SI:
 					map_identifiers[word] = "id";
 					word = "";
@@ -1449,6 +1457,12 @@ namespace leks {
 						st = state::S9;
 					}
 					break;
+				case state::S10:
+					map_op_sign[word] = word;
+					word = "";
+					st = state::S0;
+					i--;
+					break;
 				case state::S13:	//!= ==
 					if (code[i] == '=') {
 						word += code[i];
@@ -1492,7 +1506,21 @@ namespace leks {
 					word += code[i];
 					st = state::S11;
 					break;
-
+				case state::S6:
+				case state::S10:
+					map_op_sign[word] = word;
+					word = "";
+					st = state::S0;
+					i--;
+					break;
+				case state::S11:
+				case state::S14:
+				case state::S13:
+					map_comp_sign[word] = word;
+					word = "";
+					st = state::S0;
+					i--;
+					break;
 				case state::SSTR:
 					word += code[i];
 					break;
