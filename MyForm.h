@@ -81,6 +81,9 @@ namespace leks {
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ dataGridViewTextBoxColumn15;
 	private: System::Windows::Forms::Label^ label6;
 	private: System::Windows::Forms::Label^ label7;
+	private: System::Windows::Forms::RichTextBox^ ErrorsTextBox;
+
+	private: System::Windows::Forms::Label^ label9;
 
 
 
@@ -141,6 +144,8 @@ namespace leks {
 			this->dataGridViewTextBoxColumn15 = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->label7 = (gcnew System::Windows::Forms::Label());
+			this->ErrorsTextBox = (gcnew System::Windows::Forms::RichTextBox());
+			this->label9 = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->constants_table))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->separators_table))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->identifiers_table))->BeginInit();
@@ -152,10 +157,10 @@ namespace leks {
 			// buttonRunProcess
 			// 
 			this->buttonRunProcess->Anchor = System::Windows::Forms::AnchorStyles::Bottom;
-			this->buttonRunProcess->Location = System::Drawing::Point(993, 114);
+			this->buttonRunProcess->Location = System::Drawing::Point(1278, 94);
 			this->buttonRunProcess->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->buttonRunProcess->Name = L"buttonRunProcess";
-			this->buttonRunProcess->Size = System::Drawing::Size(180, 37);
+			this->buttonRunProcess->Size = System::Drawing::Size(214, 37);
 			this->buttonRunProcess->TabIndex = 2;
 			this->buttonRunProcess->Text = L"Препроцессор";
 			this->buttonRunProcess->UseVisualStyleBackColor = true;
@@ -164,10 +169,10 @@ namespace leks {
 			// buttonClear
 			// 
 			this->buttonClear->Anchor = System::Windows::Forms::AnchorStyles::Bottom;
-			this->buttonClear->Location = System::Drawing::Point(993, 208);
+			this->buttonClear->Location = System::Drawing::Point(1278, 188);
 			this->buttonClear->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->buttonClear->Name = L"buttonClear";
-			this->buttonClear->Size = System::Drawing::Size(180, 37);
+			this->buttonClear->Size = System::Drawing::Size(214, 37);
 			this->buttonClear->TabIndex = 3;
 			this->buttonClear->Text = L"Очистить";
 			this->buttonClear->UseVisualStyleBackColor = true;
@@ -178,9 +183,9 @@ namespace leks {
 			this->richTextBoxSource->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
 				| System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->richTextBoxSource->Location = System::Drawing::Point(12, 45);
+			this->richTextBoxSource->Location = System::Drawing::Point(32, 47);
 			this->richTextBoxSource->Name = L"richTextBoxSource";
-			this->richTextBoxSource->Size = System::Drawing::Size(397, 200);
+			this->richTextBoxSource->Size = System::Drawing::Size(406, 200);
 			this->richTextBoxSource->TabIndex = 5;
 			this->richTextBoxSource->Text = L"";
 			// 
@@ -189,10 +194,10 @@ namespace leks {
 			this->richTextBoxProcessed->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
 				| System::Windows::Forms::AnchorStyles::Left)
 				| System::Windows::Forms::AnchorStyles::Right));
-			this->richTextBoxProcessed->Location = System::Drawing::Point(444, 43);
+			this->richTextBoxProcessed->Location = System::Drawing::Point(444, 47);
 			this->richTextBoxProcessed->Name = L"richTextBoxProcessed";
 			this->richTextBoxProcessed->ReadOnly = true;
-			this->richTextBoxProcessed->Size = System::Drawing::Size(417, 202);
+			this->richTextBoxProcessed->Size = System::Drawing::Size(426, 200);
 			this->richTextBoxProcessed->TabIndex = 6;
 			this->richTextBoxProcessed->Text = L"";
 			// 
@@ -202,8 +207,11 @@ namespace leks {
 			// 
 			// label1
 			// 
+			this->label1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(142, 15);
+			this->label1->Location = System::Drawing::Point(160, 13);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(156, 27);
 			this->label1->TabIndex = 7;
@@ -211,8 +219,11 @@ namespace leks {
 			// 
 			// label2
 			// 
+			this->label2->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
 			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(559, 15);
+			this->label2->Location = System::Drawing::Point(552, 15);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(204, 27);
 			this->label2->TabIndex = 8;
@@ -221,10 +232,10 @@ namespace leks {
 			// Leksems
 			// 
 			this->Leksems->Anchor = System::Windows::Forms::AnchorStyles::Bottom;
-			this->Leksems->Location = System::Drawing::Point(993, 161);
+			this->Leksems->Location = System::Drawing::Point(1278, 141);
 			this->Leksems->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->Leksems->Name = L"Leksems";
-			this->Leksems->Size = System::Drawing::Size(180, 37);
+			this->Leksems->Size = System::Drawing::Size(214, 37);
 			this->Leksems->TabIndex = 9;
 			this->Leksems->Text = L"Лексемы";
 			this->Leksems->UseVisualStyleBackColor = true;
@@ -232,6 +243,7 @@ namespace leks {
 			// 
 			// constants_table
 			// 
+			this->constants_table->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->constants_table->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->constants_table->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(3) {
 				this->number,
@@ -241,7 +253,7 @@ namespace leks {
 			this->constants_table->Name = L"constants_table";
 			this->constants_table->RowHeadersWidth = 51;
 			this->constants_table->RowTemplate->Height = 24;
-			this->constants_table->Size = System::Drawing::Size(336, 150);
+			this->constants_table->Size = System::Drawing::Size(334, 150);
 			this->constants_table->TabIndex = 10;
 			// 
 			// number
@@ -267,6 +279,9 @@ namespace leks {
 			// 
 			// label3
 			// 
+			this->label3->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
 			this->label3->AutoSize = true;
 			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
@@ -279,6 +294,9 @@ namespace leks {
 			// 
 			// label5
 			// 
+			this->label5->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
 			this->label5->AutoSize = true;
 			this->label5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
@@ -291,6 +309,7 @@ namespace leks {
 			// 
 			// separators_table
 			// 
+			this->separators_table->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->separators_table->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->separators_table->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(3) {
 				this->dataGridViewTextBoxColumn1,
@@ -300,7 +319,7 @@ namespace leks {
 			this->separators_table->Name = L"separators_table";
 			this->separators_table->RowHeadersWidth = 51;
 			this->separators_table->RowTemplate->Height = 24;
-			this->separators_table->Size = System::Drawing::Size(336, 150);
+			this->separators_table->Size = System::Drawing::Size(334, 150);
 			this->separators_table->TabIndex = 14;
 			// 
 			// dataGridViewTextBoxColumn1
@@ -326,6 +345,9 @@ namespace leks {
 			// 
 			// label8
 			// 
+			this->label8->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
 			this->label8->AutoSize = true;
 			this->label8->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
@@ -338,6 +360,9 @@ namespace leks {
 			// 
 			// label4
 			// 
+			this->label4->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
 			this->label4->AutoSize = true;
 			this->label4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
@@ -350,6 +375,7 @@ namespace leks {
 			// 
 			// identifiers_table
 			// 
+			this->identifiers_table->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->identifiers_table->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->identifiers_table->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(3) {
 				this->dataGridViewTextBoxColumn4,
@@ -359,7 +385,7 @@ namespace leks {
 			this->identifiers_table->Name = L"identifiers_table";
 			this->identifiers_table->RowHeadersWidth = 51;
 			this->identifiers_table->RowTemplate->Height = 24;
-			this->identifiers_table->Size = System::Drawing::Size(336, 150);
+			this->identifiers_table->Size = System::Drawing::Size(335, 150);
 			this->identifiers_table->TabIndex = 21;
 			// 
 			// dataGridViewTextBoxColumn4
@@ -385,6 +411,7 @@ namespace leks {
 			// 
 			// comp_sign_table
 			// 
+			this->comp_sign_table->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->comp_sign_table->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->comp_sign_table->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(3) {
 				this->dataGridViewTextBoxColumn7,
@@ -394,7 +421,7 @@ namespace leks {
 			this->comp_sign_table->Name = L"comp_sign_table";
 			this->comp_sign_table->RowHeadersWidth = 51;
 			this->comp_sign_table->RowTemplate->Height = 24;
-			this->comp_sign_table->Size = System::Drawing::Size(336, 150);
+			this->comp_sign_table->Size = System::Drawing::Size(335, 150);
 			this->comp_sign_table->TabIndex = 22;
 			// 
 			// dataGridViewTextBoxColumn7
@@ -420,6 +447,7 @@ namespace leks {
 			// 
 			// keywords_table
 			// 
+			this->keywords_table->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->keywords_table->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->keywords_table->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(3) {
 				this->dataGridViewTextBoxColumn10,
@@ -429,7 +457,7 @@ namespace leks {
 			this->keywords_table->Name = L"keywords_table";
 			this->keywords_table->RowHeadersWidth = 51;
 			this->keywords_table->RowTemplate->Height = 24;
-			this->keywords_table->Size = System::Drawing::Size(336, 150);
+			this->keywords_table->Size = System::Drawing::Size(334, 150);
 			this->keywords_table->TabIndex = 23;
 			// 
 			// dataGridViewTextBoxColumn10
@@ -455,6 +483,7 @@ namespace leks {
 			// 
 			// op_sign_table
 			// 
+			this->op_sign_table->Anchor = System::Windows::Forms::AnchorStyles::Left;
 			this->op_sign_table->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->op_sign_table->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(3) {
 				this->dataGridViewTextBoxColumn13,
@@ -464,7 +493,7 @@ namespace leks {
 			this->op_sign_table->Name = L"op_sign_table";
 			this->op_sign_table->RowHeadersWidth = 51;
 			this->op_sign_table->RowTemplate->Height = 24;
-			this->op_sign_table->Size = System::Drawing::Size(336, 150);
+			this->op_sign_table->Size = System::Drawing::Size(334, 150);
 			this->op_sign_table->TabIndex = 24;
 			// 
 			// dataGridViewTextBoxColumn13
@@ -490,6 +519,9 @@ namespace leks {
 			// 
 			// label6
 			// 
+			this->label6->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
 			this->label6->AutoSize = true;
 			this->label6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
@@ -502,6 +534,9 @@ namespace leks {
 			// 
 			// label7
 			// 
+			this->label7->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
 			this->label7->AutoSize = true;
 			this->label7->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
@@ -512,11 +547,37 @@ namespace leks {
 			this->label7->TabIndex = 26;
 			this->label7->Text = L"ЗНАКИ СРАВНЕНИЯ(5)";
 			// 
+			// ErrorsTextBox
+			// 
+			this->ErrorsTextBox->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->ErrorsTextBox->Location = System::Drawing::Point(876, 47);
+			this->ErrorsTextBox->Name = L"ErrorsTextBox";
+			this->ErrorsTextBox->ReadOnly = true;
+			this->ErrorsTextBox->Size = System::Drawing::Size(383, 198);
+			this->ErrorsTextBox->TabIndex = 27;
+			this->ErrorsTextBox->Text = L"";
+			// 
+			// label9
+			// 
+			this->label9->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
+			this->label9->AutoSize = true;
+			this->label9->Location = System::Drawing::Point(1043, 17);
+			this->label9->Name = L"label9";
+			this->label9->Size = System::Drawing::Size(84, 27);
+			this->label9->TabIndex = 28;
+			this->label9->Text = L"Ошибки";
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(12, 27);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1230, 728);
+			this->ClientSize = System::Drawing::Size(1505, 728);
+			this->Controls->Add(this->label9);
+			this->Controls->Add(this->ErrorsTextBox);
 			this->Controls->Add(this->label7);
 			this->Controls->Add(this->label6);
 			this->Controls->Add(this->op_sign_table);
@@ -678,8 +739,9 @@ namespace leks {
 
 			   S0, S1, S1DOT, S2, S3, SE, S5, S6, S7, S8, S9, S10, S11, S13, S14, S15, S16, S17, S18, S19, S20, S21, S22, S23, S24, S25, S26, S27, S28, S29,
 			   S30, S31, S32, S33, S34, S35, S36, S37, S38, S39, S40, S41, S42, S43, S44, S45, S46, S47, S48, S49, S50, S51, S52, S53, S54, S55, S56, S57,
-			   S58, S59, S60, S61, S62, S63, S64, S65, S66, S67, S68, S69, S70, S71, S72, S73, S74,
-			   SI, SKEY, SSTR
+			   S58, S59, S60, S61, S62, S63, S64, S65, S66, S67, S68, S69, S70, S71, S72, S73, S74, S75, S76, S77, S78, S79, S80, S81, S82, S83, S84, S85, S86, S87,
+			   S88, S89, S90, S91, S92, S93,
+			   SI, SKEY, SSTR, SERR
 
 		   } st = state::S0;
 
@@ -705,6 +767,11 @@ namespace leks {
 		for (int i = 0; i < code->Length; i++) {
 
 			if (Char::IsLetter(code[i]) || code[i] == '_') {
+
+				if ((st == state::S1 || st == state::SERR) && (code[i] != 'e') && (code[i]!='E')) {
+					word += code[i];
+					st = state::SERR;
+				}
 				//по букве
 				switch (code[i]) {
 				case 'E':
@@ -744,14 +811,33 @@ namespace leks {
 						word += code[i];
 						st = state::SKEY;
 						break;
-					case state::S70://while
+					case state::S70://rEturn
 						word += code[i];
 						st = state::S71;
+						break;
+					case state::S81://sizEof
+						word += code[i];
+						st = state::S82;
+						break;
+					case state::S90://true
+						word += code[i];
+						st = state::SKEY;
+						break;
+
+					case state::S93://false
+						word += code[i];
+						st = state::SKEY;
 						break;
 					case state::S1:	//10e+3
 						word += code[i];
 						st = state::S2;
 						break;
+
+					case state::S1DOT:
+						word += code[i];
+						st = state::SERR;
+						break;
+
 
 					case state::S10://это нужно для распознавания --е !e <=e <e --e++ e!=e и тд ...
 					case state::S6:
@@ -763,6 +849,7 @@ namespace leks {
 					case state::S14:
 						break;
 
+					case state::SERR:
 					case state::SSTR:
 						break;
 
@@ -796,10 +883,14 @@ namespace leks {
 						word += code[i];
 						st = state::S69;
 					}
+					else if (st == state::S91) {
+						word += code[i];
+						st = state::S92;
+					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {//это нужно для распознавания --l l++ и т.д
 						break;;
 					}
-					else if (st == state::SSTR) {
+					else if (st == state::SSTR || st == state::SERR) {
 						break;
 					}
 					else {
@@ -808,7 +899,11 @@ namespace leks {
 					break;
 
 				case 's':
-					if (st == state::S16) {
+					if (st == state::S0) {
+						word += code[i];
+						st = state::S75;
+					}
+					else if (st == state::S16) {
 						word += code[i];
 						st = state::S17;
 					}
@@ -828,10 +923,14 @@ namespace leks {
 						word += code[i];
 						st = state::SKEY;
 					}
+					else if (st == state::S92) {
+						word += code[i];
+						st = state::S93;
+					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
 					}
-					else if (st == state::SSTR) {
+					else if (st == state::SSTR || st == state::SERR) {
 						break;
 					}
 					else {
@@ -870,7 +969,7 @@ namespace leks {
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
 					}
-					else if (st == state::SSTR) {
+					else if (st == state::SSTR || st == state::SERR) {
 						break;
 					}
 					else {
@@ -886,7 +985,7 @@ namespace leks {
 						word += code[i];
 						st = state::S25;
 					}
-					else if (st == state::S44) {
+					else if (st == state::SKEY) {
 						word += code[i];
 						st = state::S45;
 					}
@@ -898,10 +997,18 @@ namespace leks {
 						word += code[i];
 						st = state::S73;
 					}
+					else if (st == state::S85) {
+						word += code[i];
+						st = state::S86;
+					}
+					else if (st == state::S89) {
+						word += code[i];
+						st = state::S90;
+					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
 					}
-					else if (st == state::SSTR) {
+					else if (st == state::SSTR || st == state::SERR) {
 						break;
 					}
 					else {
@@ -931,7 +1038,7 @@ namespace leks {
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
 					}
-					else if (st == state::SSTR) {
+					else if (st == state::SSTR || st == state::SERR) {
 						break;
 					}
 					else {
@@ -939,7 +1046,11 @@ namespace leks {
 					}
 					break;
 				case 't':
-					if (st == state::S20) {
+					if (st == state::S0) {
+						word += code[i];
+						st = state::S88;
+					}
+					else if (st == state::S20) {
 						word += code[i];
 						st = state::S21;
 					}
@@ -971,10 +1082,22 @@ namespace leks {
 						word += code[i];
 						st = state::S72;
 					}
+					else if (st == state::S77) {
+						word += code[i];
+						st = state::S78;
+					}
+					else if (st == state::S75) {
+						word += code[i];
+						st = state::S84;
+					}
+					else if (st == state::S87) {//struct
+						word += code[i];
+						st = state::SKEY;
+					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
 					}
-					else if (st == state::SSTR) {
+					else if (st == state::SSTR || st == state::SERR) {
 						break;
 					}
 					else {
@@ -1010,10 +1133,18 @@ namespace leks {
 						word += code[i];
 						st = state::S74;
 					}
+					else if (st == state::S84) {
+						word += code[i];
+						st = state::S85;
+					}
+					else if (st == state::S88) {
+						word += code[i];
+						st = state::S89;
+					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
 					}
-					else if (st == state::SSTR) {
+					else if (st == state::SSTR || st == state::SERR) {
 						break;
 					}
 					else {
@@ -1046,10 +1177,14 @@ namespace leks {
 						word += code[i];
 						st = state::S60;
 					}
+					else if (st == state::S53) {
+						word += code[i];
+						st = state::S91;
+					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
 					}
-					else if (st == state::SSTR) {
+					else if (st == state::SSTR || st == state::SERR) {
 						break;
 					}
 					else {
@@ -1073,9 +1208,9 @@ namespace leks {
 						word += code[i];
 						st = state::S38;
 					}
-					else if (st == state::S43) {
+					else if (st == state::S43) {//do
 						word += code[i];
-						st = state::S44;
+						st = state::SKEY;
 					}
 					else if (st == state::S58) {
 						word += code[i];
@@ -1085,10 +1220,14 @@ namespace leks {
 						word += code[i];
 						st = state::S61;
 					}
+					else if (st == state::S82) {
+						word += code[i];
+						st = state::S83;
+					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
 					}
-					else if (st == state::SSTR) {
+					else if (st == state::SSTR || st == state::SERR) {
 						break;
 					}
 					else {
@@ -1107,7 +1246,7 @@ namespace leks {
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
 					}
-					else if (st == state::SSTR) {
+					else if (st == state::SSTR || st == state::SERR) {
 						break;
 					}
 					else {
@@ -1138,10 +1277,18 @@ namespace leks {
 						word += code[i];
 						st = state::S37;
 					}
+					else if (st == state::S78) {
+						word += code[i];
+						st = state::S79;
+					}
+					else if (st == state::S86) {
+						word += code[i];
+						st = state::S87;
+					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
 					}
-					else if (st == state::SSTR) {
+					else if (st == state::SSTR || st == state::SERR) {
 						break;
 					}
 					else {
@@ -1161,10 +1308,14 @@ namespace leks {
 						word += code[i];
 						st = state::S67;
 					}
+					else if (st == state::S79) {
+						word += code[i];
+						st = state::SKEY;
+					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
 					}
-					else if (st == state::SSTR) {
+					else if (st == state::SSTR || st == state::SERR) {
 						break;
 					}
 					else {
@@ -1188,10 +1339,18 @@ namespace leks {
 						word += code[i];
 						st = state::S68;
 					}
+					else if (st == state::S76) {
+						word += code[i];
+						st = state::S77;
+					}
+					else if (st == state::S75) {
+						word += code[i];
+						st = state::S80;
+					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
 					}
-					else if (st == state::SSTR) {
+					else if (st == state::SSTR || st == state::SERR) {
 						break;
 					}
 					else {
@@ -1210,7 +1369,7 @@ namespace leks {
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
 					}
-					else if (st == state::SSTR) {
+					else if (st == state::SSTR || st == state::SERR) {
 						break;
 					}
 					else {
@@ -1226,10 +1385,14 @@ namespace leks {
 						word += code[i];
 						st = state::SKEY;
 					}
+					else if (st == state::S83) {//sizeof
+						word += code[i];
+						st = state::SKEY;
+					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
 					}
-					else if (st == state::SSTR) {
+					else if (st == state::SSTR || st == state::SERR) {
 						break;
 					}
 					else {
@@ -1242,24 +1405,43 @@ namespace leks {
 						word += code[i];
 						st = state::S66;
 					}
+					else if (st == state::S75) {
+						word += code[i];
+						st = state::S76;
+					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
 					}
-					else if (st == state::SSTR) {
+					else if (st == state::SSTR || st == state::SERR) {
 						break;
 					}
 					else {
 						st = state::SI;
 					}
 					break;
-
+				case 'z':
+					if (st == state::S80) {
+						word += code[i];
+						st = state::S81;
+					}
+					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
+						break;;
+					}
+					else if (st == state::SSTR || st == state::SERR) {
+						break;
+					}
+					else {
+						st = state::SI;
+					}
+					break;
 				default:
 					if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {// распознать ==a --a ++a <a ...
 						break;
 					}
-					if (st == state::SSTR) {
+					else if (st == state::SSTR || st == state::SERR) {
 						break;
 					}
+					
 					st = state::SI;
 					break;
 				}
@@ -1293,7 +1475,6 @@ namespace leks {
 					st = state::S0;
 					i--;
 					break;
-
 				case state::SKEY:
 					break;
 
@@ -1384,6 +1565,12 @@ namespace leks {
 					break;
 				case state::SI:
 					map_identifiers[word] = "id";
+					word = "";
+					st = state::S0;
+					i--;
+					break;
+				case state::SKEY:
+					map_keywords[word] = word;
 					word = "";
 					st = state::S0;
 					i--;
@@ -1604,7 +1791,7 @@ namespace leks {
 
 			//пришел разделитель смотрим какое состояние и пишем лексему если конечное
 			else if (code[i] == '\n' || code[i] == ' ' || code[i] == ',' || code[i] == '(' || code[i] == ')' || code[i] == '{' || code[i] == '}' || code[i] == '[' || code[i] == ']' || code[i] == ':' || code[i] == ';') {
-
+				String^ err = gcnew String(word.c_str());
 				switch (st)
 				{
 				case state::S0://распознаем разделитель
@@ -1613,6 +1800,15 @@ namespace leks {
 					map_separator_sign[word] = word;
 					break;
 
+				case state::S2:
+				case state::S3:	//ошибка в константе 10e+
+				case state::S1DOT:
+				case state::SERR:
+					this->ErrorsTextBox->Text += "Неверно введенная константа: " + err;
+					this->ErrorsTextBox->Text += "\n";
+					err = "";
+					i--;
+					break;
 				case state::S1:	//распознаем константу
 					map_constants[word] = "const";
 					i--;
@@ -1752,8 +1948,10 @@ namespace leks {
 			   this->op_sign_table->Rows->Clear();
 			   this->comp_sign_table->Rows->Clear();
 			   this->separators_table->Rows->Clear();
+			   this->ErrorsTextBox->Clear();
 
 			   //delete tokens;
 		   }
-	};
+
+};
 }
