@@ -723,6 +723,7 @@ namespace leks {
 		richTextBoxSource->Text = ""; //поле ввода - Исходный код
 		richTextBoxProcessed->Text = ""; //поле ввода - Обработанный код
 		processedCode = ""; //обработанный код
+		this->ErrorsTextBox->Clear();
 		code = "";
 		S = 0; //состояние
 		lineNum = 1; //количество строк
@@ -740,7 +741,7 @@ namespace leks {
 			   S0, S1, S1DOT, S2, S3, SE, S5, S6, S7, S8, S9, S10, S11, S13, S14, S15, S16, S17, S18, S19, S20, S21, S22, S23, S24, S25, S26, S27, S28, S29,
 			   S30, S31, S32, S33, S34, S35, S36, S37, S38, S39, S40, S41, S42, S43, S44, S45, S46, S47, S48, S49, S50, S51, S52, S53, S54, S55, S56, S57,
 			   S58, S59, S60, S61, S62, S63, S64, S65, S66, S67, S68, S69, S70, S71, S72, S73, S74, S75, S76, S77, S78, S79, S80, S81, S82, S83, S84, S85, S86, S87,
-			   S88, S89, S90, S91, S92, S93,
+			   S88, S89, S90, S91, S92, S93, S94, S95, S96,
 			   SI, SKEY, SSTR, SERR
 
 		   } st = state::S0;
@@ -1094,6 +1095,10 @@ namespace leks {
 						word += code[i];
 						st = state::SKEY;
 					}
+					else if (st == state::S95) {//goto
+						word += code[i];
+						st = state::S96;
+					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
 					}
@@ -1223,6 +1228,14 @@ namespace leks {
 					else if (st == state::S82) {
 						word += code[i];
 						st = state::S83;
+					}
+					else if (st == state::S94) {
+						word += code[i];
+						st = state::S95;
+					}
+					else if (st == state::S96) {
+						word += code[i];
+						st = state::SKEY;
 					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
@@ -1423,6 +1436,21 @@ namespace leks {
 					if (st == state::S80) {
 						word += code[i];
 						st = state::S81;
+					}
+					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
+						break;;
+					}
+					else if (st == state::SSTR || st == state::SERR) {
+						break;
+					}
+					else {
+						st = state::SI;
+					}
+					break;
+				case 'g':
+					if (st == state::S0) {
+						word += code[i];
+						st = state::S94;
 					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
@@ -1948,7 +1976,7 @@ namespace leks {
 			   this->op_sign_table->Rows->Clear();
 			   this->comp_sign_table->Rows->Clear();
 			   this->separators_table->Rows->Clear();
-			   this->ErrorsTextBox->Clear();
+			   
 
 			   //delete tokens;
 		   }
