@@ -758,6 +758,7 @@ namespace leks {
 			}
 		}
 
+
 		System::String^ numerateLines() { //функция нумерации строк
 			String^ processedCode2 = lineNum + ") ";
 			for (int i = 0; i < processedCode->Length; i++) {
@@ -1656,7 +1657,10 @@ namespace leks {
 					else if (st == state::SSTR || st == state::SERR) {
 						break;
 					}
-
+					if (st == state::S1 || st == state::S2 || st == state::S3 || st == state::S1DOT) {
+						st = state::SERR;
+						break;
+					}
 					st = state::SI;
 					break;
 				}
@@ -1692,17 +1696,23 @@ namespace leks {
 						tokens.push_back(tok);
 
 						cnt_op_sign++;
+
+						this->PseudoCode->Text += leksema;
+
 					}
 					else {
 						//заносим в вектор токенов
 						for (auto i : map_op_sign) {
 							if (i.first == word) {
-								int num_table = 1;
+								int num_table = 4;
 								int num_record = i.second;
 								my_token::token tok{ num_table, num_record };
 								tokens.push_back(tok);
 							}
 						}
+						String^ leksema = gcnew String(word.c_str());
+						this->PseudoCode->Text += leksema;
+
 
 					}
 					word = "";
@@ -1711,12 +1721,45 @@ namespace leks {
 					break;
 				case state::S11:
 				case state::S14://знаки сравнения
-					//map_comp_sign[word] = word;
+					if (map_comp_sign.find(word) == map_comp_sign.end()) {//встретили слово первый раз
+						String^ leksema = gcnew String(word.c_str());
+						String^ code_leks = gcnew String(word.c_str());
+
+						map_comp_sign[word] = cnt_comp_sign;//занесли в мапу
+
+						this->comp_sign_table->Rows->Add(cnt_comp_sign, leksema, code_leks);//заносим в таблицу
+
+						int num_table = 5;
+						int num_record = cnt_comp_sign;
+						my_token::token tok{ num_table, num_record };
+						tokens.push_back(tok);
+
+						cnt_comp_sign++;
+
+						this->PseudoCode->Text += leksema;
+
+					}
+					else {
+						//заносим в вектор токенов
+						for (auto i : map_comp_sign) {
+							if (i.first == word) {
+								int num_table = 5;
+								int num_record = i.second;
+								my_token::token tok{ num_table, num_record };
+								tokens.push_back(tok);
+							}
+						}
+						String^ leksema = gcnew String(word.c_str());
+						this->PseudoCode->Text += leksema;
+
+
+					}
 					word = "";
 					st = state::S0;
 					i--;
 					break;
 				case state::SKEY:
+				case state::SERR:
 					break;
 
 				case state::SSTR:
@@ -1759,17 +1802,23 @@ namespace leks {
 						tokens.push_back(tok);
 
 						cnt_op_sign++;
+
+						this->PseudoCode->Text += leksema;
+
 					}
 					else {
 						//заносим в вектор токенов
 						for (auto i : map_op_sign) {
 							if (i.first == word) {
-								int num_table = 1;
+								int num_table = 4;
 								int num_record = i.second;
 								my_token::token tok{ num_table, num_record };
 								tokens.push_back(tok);
 							}
 						}
+						String^ leksema = gcnew String(word.c_str());
+						this->PseudoCode->Text += leksema;
+
 
 					}
 					word = "";
@@ -1778,7 +1827,39 @@ namespace leks {
 					break;
 				case state::S11:
 				case state::S14://знаки сравнения
-					//map_comp_sign[word] = word;
+					if (map_comp_sign.find(word) == map_comp_sign.end()) {//встретили слово первый раз
+						String^ leksema = gcnew String(word.c_str());
+						String^ code_leks = gcnew String(word.c_str());
+
+						map_comp_sign[word] = cnt_comp_sign;//занесли в мапу
+
+						this->comp_sign_table->Rows->Add(cnt_comp_sign, leksema, code_leks);//заносим в таблицу
+
+						int num_table = 5;
+						int num_record = cnt_comp_sign;
+						my_token::token tok{ num_table, num_record };
+						tokens.push_back(tok);
+
+						cnt_comp_sign++;
+
+						this->PseudoCode->Text += leksema;
+
+					}
+					else {
+						//заносим в вектор токенов
+						for (auto i : map_comp_sign) {
+							if (i.first == word) {
+								int num_table = 5;
+								int num_record = i.second;
+								my_token::token tok{ num_table, num_record };
+								tokens.push_back(tok);
+							}
+						}
+						String^ leksema = gcnew String(word.c_str());
+						this->PseudoCode->Text += leksema;
+
+
+					}
 					word = "";
 					st = state::S0;
 					i--;
@@ -1791,7 +1872,9 @@ namespace leks {
 				case state::SSTR:
 					word += code[i];
 					break;
-
+				case state::SERR:
+					word += code[i];
+					break;
 				default:
 					word += code[i];
 					st = state::SI;
@@ -1831,7 +1914,7 @@ namespace leks {
 						//заносим в вектор токенов
 						for (auto i : map_constants) {
 							if (i.first == word) {
-								int num_table = 1;
+								int num_table = 3;
 								int num_record = i.second;
 								my_token::token tok{ num_table, num_record };
 								tokens.push_back(tok);
@@ -1839,6 +1922,8 @@ namespace leks {
 						}
 
 					}
+					this->PseudoCode->Text += "const";
+
 					word = "";
 					st = state::S0;
 					i--;
@@ -1865,17 +1950,23 @@ namespace leks {
 						tokens.push_back(tok);
 
 						cnt_op_sign++;
+
+						this->PseudoCode->Text += leksema;
+
 					}
 					else {
 						//заносим в вектор токенов
 						for (auto i : map_op_sign) {
 							if (i.first == word) {
-								int num_table = 1;
+								int num_table = 4;
 								int num_record = i.second;
 								my_token::token tok{ num_table, num_record };
 								tokens.push_back(tok);
 							}
 						}
+						String^ leksema = gcnew String(word.c_str());
+						this->PseudoCode->Text += leksema;
+
 
 					}
 					word = "";
@@ -1884,13 +1975,73 @@ namespace leks {
 					break;
 				case state::S11:
 				case state::S14:
-					//map_comp_sign[word] = word;
+					if (map_comp_sign.find(word) == map_comp_sign.end()) {//встретили слово первый раз
+						String^ leksema = gcnew String(word.c_str());
+						String^ code_leks = gcnew String(word.c_str());
+
+						map_comp_sign[word] = cnt_comp_sign;//занесли в мапу
+
+						this->comp_sign_table->Rows->Add(cnt_comp_sign, leksema, code_leks);//заносим в таблицу
+
+						int num_table = 5;
+						int num_record = cnt_comp_sign;
+						my_token::token tok{ num_table, num_record };
+						tokens.push_back(tok);
+
+						cnt_comp_sign++;
+
+						this->PseudoCode->Text += leksema;
+
+					}
+					else {
+						//заносим в вектор токенов
+						for (auto i : map_comp_sign) {
+							if (i.first == word) {
+								int num_table = 5;
+								int num_record = i.second;
+								my_token::token tok{ num_table, num_record };
+								tokens.push_back(tok);
+							}
+						}
+						String^ leksema = gcnew String(word.c_str());
+						this->PseudoCode->Text += leksema;
+
+
+					}
 					word = "";
 					st = state::S0;
 					i--;
 					break;
 				case state::SI:
-					//map_identifiers[word] = "id";
+					if (map_identifiers.find(word) == map_identifiers.end()) {//встретили слово первый раз
+						String^ leksema = gcnew String(word.c_str());
+						String^ code_leks = gcnew String(word.c_str());
+
+						map_identifiers[word] = cnt_identifiers;//занесли в мапу
+
+						this->identifiers_table->Rows->Add(cnt_identifiers, leksema, code_leks);//заносим в таблицу
+
+						int num_table = 2;
+						int num_record = cnt_identifiers;
+						my_token::token tok{ num_table, num_record };
+						tokens.push_back(tok);
+
+						cnt_identifiers++;
+					}
+					else {
+						//заносим в вектор токенов
+						for (auto i : map_identifiers) {
+							if (i.first == word) {
+								int num_table = 2;
+								int num_record = i.second;
+								my_token::token tok{ num_table, num_record };
+								tokens.push_back(tok);
+							}
+						}
+
+					}
+					this->PseudoCode->Text += "id";
+
 					word = "";
 					st = state::S0;
 					i--;
@@ -1912,6 +2063,9 @@ namespace leks {
 						tokens.push_back(tok);
 
 						cnt_keywords++;
+
+						this->PseudoCode->Text += leksema;
+
 					}
 					else {
 	
@@ -1924,6 +2078,9 @@ namespace leks {
 								tokens.push_back(tok);
 							}
 						}
+						String^ leksema = gcnew String(word.c_str());
+						this->PseudoCode->Text += leksema;
+
 
 					}
 					word = "";
@@ -1935,7 +2092,36 @@ namespace leks {
 					break;
 
 				default:
-					//map_identifiers[word] = "id";
+					if (map_identifiers.find(word) == map_identifiers.end()) {//встретили слово первый раз
+						String^ leksema = gcnew String(word.c_str());
+						String^ code_leks = gcnew String(word.c_str());
+
+						map_identifiers[word] = cnt_identifiers;//занесли в мапу
+
+						this->identifiers_table->Rows->Add(cnt_identifiers, leksema, code_leks);//заносим в таблицу
+
+						int num_table = 2;
+						int num_record = cnt_identifiers;
+						my_token::token tok{ num_table, num_record };
+						tokens.push_back(tok);
+
+						cnt_identifiers++;
+					}
+					else {
+						//заносим в вектор токенов
+						for (auto i : map_identifiers) {
+							if (i.first == word) {
+								int num_table = 2;
+								int num_record = i.second;
+								my_token::token tok{ num_table, num_record };
+								tokens.push_back(tok);
+							}
+						}
+
+					}
+
+					this->PseudoCode->Text += "id";
+
 					word = "";
 					st = state::S0;
 					i--;
@@ -1955,7 +2141,7 @@ namespace leks {
 						st = state::S8;
 					}
 					break;
-				case state::S1: // 4== и тд...
+				case state::S1: // 4& и тд...
 					if (map_constants.find(word) == map_constants.end()) {//встретили слово первый раз
 						String^ leksema = gcnew String(word.c_str());
 						String^ code_leks = gcnew String(word.c_str());
@@ -1976,7 +2162,7 @@ namespace leks {
 						//заносим в вектор токенов
 						for (auto i : map_constants) {
 							if (i.first == word) {
-								int num_table = 1;
+								int num_table = 3;
 								int num_record = i.second;
 								my_token::token tok{ num_table, num_record };
 								tokens.push_back(tok);
@@ -1984,6 +2170,8 @@ namespace leks {
 						}
 
 					}
+					this->PseudoCode->Text += "const";
+
 					word = "";
 					st = state::S0;
 					i--;
@@ -2005,6 +2193,9 @@ namespace leks {
 						tokens.push_back(tok);
 
 						cnt_keywords++;
+
+						this->PseudoCode->Text += leksema;
+
 					}
 					else {
 
@@ -2017,6 +2208,9 @@ namespace leks {
 								tokens.push_back(tok);
 							}
 						}
+						String^ leksema = gcnew String(word.c_str());
+						this->PseudoCode->Text += leksema;
+
 
 					}
 					word = "";
@@ -2034,7 +2228,35 @@ namespace leks {
 					break;
 
 				default:
-					//map_identifiers[word] = "id";
+					if (map_identifiers.find(word) == map_identifiers.end()) {//встретили слово первый раз
+						String^ leksema = gcnew String(word.c_str());
+						String^ code_leks = gcnew String(word.c_str());
+
+						map_identifiers[word] = cnt_identifiers;//занесли в мапу
+
+						this->identifiers_table->Rows->Add(cnt_identifiers, leksema, code_leks);//заносим в таблицу
+
+						int num_table = 2;
+						int num_record = cnt_identifiers;
+						my_token::token tok{ num_table, num_record };
+						tokens.push_back(tok);
+
+						cnt_identifiers++;
+					}
+					else {
+						//заносим в вектор токенов
+						for (auto i : map_identifiers) {
+							if (i.first == word) {
+								int num_table = 2;
+								int num_record = i.second;
+								my_token::token tok{ num_table, num_record };
+								tokens.push_back(tok);
+							}
+						}
+
+					}
+					this->PseudoCode->Text += "id";
+
 					word = "";
 					st = state::S0;
 					i--;
@@ -2044,7 +2266,35 @@ namespace leks {
 			else if (code[i] == '=' || code[i] == '!') {
 				switch (st) {
 				case state::SI:
-					//map_identifiers[word] = "id";
+					if (map_identifiers.find(word) == map_identifiers.end()) {//встретили слово первый раз
+						String^ leksema = gcnew String(word.c_str());
+						String^ code_leks = gcnew String(word.c_str());
+
+						map_identifiers[word] = cnt_identifiers;//занесли в мапу
+
+						this->identifiers_table->Rows->Add(cnt_identifiers, leksema, code_leks);//заносим в таблицу
+
+						int num_table = 2;
+						int num_record = cnt_identifiers;
+						my_token::token tok{ num_table, num_record };
+						tokens.push_back(tok);
+
+						cnt_identifiers++;
+					}
+					else {
+						//заносим в вектор токенов
+						for (auto i : map_identifiers) {
+							if (i.first == word) {
+								int num_table = 2;
+								int num_record = i.second;
+								my_token::token tok{ num_table, num_record };
+								tokens.push_back(tok);
+							}
+						}
+
+					}
+					this->PseudoCode->Text += "id";
+
 					word = "";
 					st = state::S0;
 					i--;
@@ -2070,7 +2320,7 @@ namespace leks {
 						//заносим в вектор токенов
 						for (auto i : map_constants) {
 							if (i.first == word) {
-								int num_table = 1;
+								int num_table = 3;
 								int num_record = i.second;
 								my_token::token tok{ num_table, num_record };
 								tokens.push_back(tok);
@@ -2078,6 +2328,8 @@ namespace leks {
 						}
 
 					}	
+					this->PseudoCode->Text += "const";
+
 					word = "";
 					st = state::S0;
 					i--;
@@ -2099,6 +2351,9 @@ namespace leks {
 						tokens.push_back(tok);
 
 						cnt_keywords++;
+
+						this->PseudoCode->Text += leksema;
+
 					}
 					else {
 
@@ -2111,6 +2366,9 @@ namespace leks {
 								tokens.push_back(tok);
 							}
 						}
+						String^ leksema = gcnew String(word.c_str());
+						this->PseudoCode->Text += leksema;
+
 
 					}
 					word = "";
@@ -2142,17 +2400,23 @@ namespace leks {
 						tokens.push_back(tok);
 
 						cnt_op_sign++;
+
+						this->PseudoCode->Text += leksema;
+
 					}
 					else {
 						//заносим в вектор токенов
 						for (auto i : map_op_sign) {
 							if (i.first == word) {
-								int num_table = 1;
+								int num_table = 4;
 								int num_record = i.second;
 								my_token::token tok{ num_table, num_record };
 								tokens.push_back(tok);
 							}
 						}
+						String^ leksema = gcnew String(word.c_str());
+						this->PseudoCode->Text += leksema;
+
 
 					}
 					word = "";
@@ -2177,7 +2441,35 @@ namespace leks {
 					break;
 
 				default:
-					//map_identifiers[word] = "id";
+					if (map_identifiers.find(word) == map_identifiers.end()) {//встретили слово первый раз
+						String^ leksema = gcnew String(word.c_str());
+						String^ code_leks = gcnew String(word.c_str());
+
+						map_identifiers[word] = cnt_identifiers;//занесли в мапу
+
+						this->identifiers_table->Rows->Add(cnt_identifiers, leksema, code_leks);//заносим в таблицу
+
+						int num_table = 2;
+						int num_record = cnt_identifiers;
+						my_token::token tok{ num_table, num_record };
+						tokens.push_back(tok);
+
+						cnt_identifiers++;
+					}
+					else {
+						//заносим в вектор токенов
+						for (auto i : map_identifiers) {
+							if (i.first == word) {
+								int num_table = 2;
+								int num_record = i.second;
+								my_token::token tok{ num_table, num_record };
+								tokens.push_back(tok);
+							}
+						}
+
+					}
+					this->PseudoCode->Text += "id";
+
 					word = "";
 					st = state::S0;
 					i--;
@@ -2214,14 +2506,17 @@ namespace leks {
 						//заносим в вектор токенов
 						for (auto i : map_constants) {
 							if (i.first == word) {
-								int num_table = 1;
+								int num_table = 3;
 								int num_record = i.second;
 								my_token::token tok{ num_table, num_record };
 								tokens.push_back(tok);
 							}
 						}
 
+
 					}
+					this->PseudoCode->Text += "const";
+
 					word = "";
 					st = state::S0;
 					i--;
@@ -2250,17 +2545,23 @@ namespace leks {
 						tokens.push_back(tok);
 
 						cnt_op_sign++;
+
+						this->PseudoCode->Text += leksema;
+
 					}
 					else {
 						//заносим в вектор токенов
 						for (auto i : map_op_sign) {
 							if (i.first == word) {
-								int num_table = 1;
+								int num_table = 4;
 								int num_record = i.second;
 								my_token::token tok{ num_table, num_record };
 								tokens.push_back(tok);
 							}
 						}
+						String^ leksema = gcnew String(word.c_str());
+						this->PseudoCode->Text += leksema;
+
 
 					}
 					word = "";
@@ -2269,7 +2570,39 @@ namespace leks {
 					break;
 				case state::S11:
 				case state::S14:
-					//map_comp_sign[word] = word;
+					if (map_comp_sign.find(word) == map_comp_sign.end()) {//встретили слово первый раз
+						String^ leksema = gcnew String(word.c_str());
+						String^ code_leks = gcnew String(word.c_str());
+
+						map_comp_sign[word] = cnt_comp_sign;//занесли в мапу
+
+						this->comp_sign_table->Rows->Add(cnt_comp_sign, leksema, code_leks);//заносим в таблицу
+
+						int num_table = 5;
+						int num_record = cnt_comp_sign;
+						my_token::token tok{ num_table, num_record };
+						tokens.push_back(tok);
+
+						cnt_comp_sign++;
+
+						this->PseudoCode->Text += leksema;
+
+					}
+					else {
+						//заносим в вектор токенов
+						for (auto i : map_comp_sign) {
+							if (i.first == word) {
+								int num_table = 5;
+								int num_record = i.second;
+								my_token::token tok{ num_table, num_record };
+								tokens.push_back(tok);
+							}
+						}
+						String^ leksema = gcnew String(word.c_str());
+						this->PseudoCode->Text += leksema;
+
+
+					}
 					word = "";
 					st = state::S0;
 					i--;
@@ -2294,6 +2627,9 @@ namespace leks {
 						tokens.push_back(tok);
 
 						cnt_keywords++;
+
+						this->PseudoCode->Text += leksema;
+
 					}
 					else {
 
@@ -2306,12 +2642,43 @@ namespace leks {
 								tokens.push_back(tok);
 							}
 						}
+						String^ leksema = gcnew String(word.c_str());
+						this->PseudoCode->Text += leksema;
+
 
 					}
 					i--;
 					break;
 				default:
-					//map_identifiers[word] = "id";
+					if (map_identifiers.find(word) == map_identifiers.end()) {//встретили слово первый раз
+						String^ leksema = gcnew String(word.c_str());
+						String^ code_leks = gcnew String(word.c_str());
+
+						map_identifiers[word] = cnt_identifiers;//занесли в мапу
+
+						this->identifiers_table->Rows->Add(cnt_identifiers, leksema, code_leks);//заносим в таблицу
+
+						int num_table = 2;
+						int num_record = cnt_identifiers;
+						my_token::token tok{ num_table, num_record };
+						tokens.push_back(tok);
+
+						cnt_identifiers++;
+					}
+					else {
+						//заносим в вектор токенов
+						for (auto i : map_identifiers) {
+							if (i.first == word) {
+								int num_table = 2;
+								int num_record = i.second;
+								my_token::token tok{ num_table, num_record };
+								tokens.push_back(tok);
+							}
+						}
+
+					}	
+					this->PseudoCode->Text += "id";
+
 					word = "";
 					st = state::S0;
 					i--;
@@ -2340,7 +2707,36 @@ namespace leks {
 					st = state::SSTR;
 					break;
 				case state::SSTR:
-					//map_constants[word] = "string";
+					if (map_constants.find(word) == map_constants.end()) {//встретили слово первый раз
+						String^ leksema = gcnew String(word.c_str());
+						String^ code_leks = gcnew String(word.c_str());
+
+						map_constants[word] = cnt_consts;//занесли в мапу
+
+						this->constants_table->Rows->Add(cnt_consts, leksema, code_leks);//заносим в таблицу
+
+						int num_table = 3;
+						int num_record = cnt_consts;
+						my_token::token tok{ num_table, num_record };
+						tokens.push_back(tok);
+
+						cnt_consts++;
+					}
+					else {
+
+						//заносим в вектор токенов
+						for (auto i : map_constants) {
+							if (i.first == word) {
+								int num_table = 3;
+								int num_record = i.second;
+								my_token::token tok{ num_table, num_record };
+								tokens.push_back(tok);
+							}
+						}
+
+					}
+					this->PseudoCode->Text += "const";
+
 					word = "";
 					st = state::S0;
 					break;
@@ -2350,7 +2746,39 @@ namespace leks {
 					case state::S0://распознаем разделитель
 						word += code[i];
 						st = state::S5;
-						//map_separator_sign[word] = word;
+						if (map_separator_sign.find(word) == map_separator_sign.end()) {//встретили слово первый раз
+							String^ leksema = gcnew String(word.c_str());
+							String^ code_leks = gcnew String(word.c_str());
+
+							map_separator_sign[word] = cnt_sep_sign;//занесли в мапу
+
+							this->separators_table->Rows->Add(cnt_sep_sign, leksema, code_leks);//заносим в таблицу
+
+							int num_table = 6;
+							int num_record = cnt_sep_sign;
+							my_token::token tok{ num_table, num_record };
+							tokens.push_back(tok);
+
+							cnt_sep_sign++;
+
+							this->PseudoCode->Text += leksema;
+
+						}
+						else {
+							//заносим в вектор токенов
+							for (auto i : map_separator_sign) {
+								if (i.first == word) {
+									int num_table = 6;
+									int num_record = i.second;
+									my_token::token tok{ num_table, num_record };
+									tokens.push_back(tok);
+								}
+							}
+							String^ leksema = gcnew String(word.c_str());
+							this->PseudoCode->Text += leksema;
+
+
+						}				
 						break;
 
 					case state::S1:	//распознаем константу
@@ -2374,7 +2802,7 @@ namespace leks {
 							//заносим в вектор токенов
 							for (auto i : map_constants) {
 								if (i.first == word) {
-									int num_table = 1;
+									int num_table = 3;
 									int num_record = i.second;
 									my_token::token tok{ num_table, num_record };
 									tokens.push_back(tok);
@@ -2382,10 +2810,41 @@ namespace leks {
 							}
 
 						}
+
+						this->PseudoCode->Text += "const";
+
 						break;
 
 					case state::SI: //распознаем идентификатор
-						//map_identifiers[word] = "id";
+						if (map_identifiers.find(word) == map_identifiers.end()) {//встретили слово первый раз
+							String^ leksema = gcnew String(word.c_str());
+							String^ code_leks = gcnew String(word.c_str());
+
+							map_identifiers[word] = cnt_identifiers;//занесли в мапу
+
+							this->identifiers_table->Rows->Add(cnt_identifiers, leksema, code_leks);//заносим в таблицу
+
+							int num_table = 2;
+							int num_record = cnt_identifiers;
+							my_token::token tok{ num_table, num_record };
+							tokens.push_back(tok);
+
+							cnt_identifiers++;
+						}
+						else {
+							//заносим в вектор токенов
+							for (auto i : map_identifiers) {
+								if (i.first == word) {
+									int num_table = 2;
+									int num_record = i.second;
+									my_token::token tok{ num_table, num_record };
+									tokens.push_back(tok);
+								}
+							}
+
+						}	
+						this->PseudoCode->Text += "id";
+
 						break;
 					case state::SKEY:
 						if (map_keywords.find(word) == map_keywords.end()) {
@@ -2412,27 +2871,93 @@ namespace leks {
 							tokens.push_back(tok);
 
 							cnt_op_sign++;
+
+							this->PseudoCode->Text += leksema;
+
 						}
 						else {
 							//заносим в вектор токенов
 							for (auto i : map_op_sign) {
 								if (i.first == word) {
-									int num_table = 1;
+									int num_table = 4;
+									int num_record = i.second;
+									my_token::token tok{ num_table, num_record };
+									tokens.push_back(tok);
+								}
+							}
+							String^ leksema = gcnew String(word.c_str());
+							this->PseudoCode->Text += leksema;
+
+
+						}
+						break;
+					case state::S11:// == != <= >=
+					case state::S14:
+						if (map_comp_sign.find(word) == map_comp_sign.end()) {//встретили слово первый раз
+							String^ leksema = gcnew String(word.c_str());
+							String^ code_leks = gcnew String(word.c_str());
+
+							map_comp_sign[word] = cnt_comp_sign;//занесли в мапу
+
+							this->comp_sign_table->Rows->Add(cnt_comp_sign, leksema, code_leks);//заносим в таблицу
+
+							int num_table = 5;
+							int num_record = cnt_comp_sign;
+							my_token::token tok{ num_table, num_record };
+							tokens.push_back(tok);
+
+							cnt_comp_sign++;
+
+							this->PseudoCode->Text += leksema;
+
+						}
+						else {
+							//заносим в вектор токенов
+							for (auto i : map_comp_sign) {
+								if (i.first == word) {
+									int num_table = 5;
+									int num_record = i.second;
+									my_token::token tok{ num_table, num_record };
+									tokens.push_back(tok);
+								}
+							}
+							String^ leksema = gcnew String(word.c_str());
+							this->PseudoCode->Text += leksema;
+
+
+						}
+						break;
+
+					default:
+						if (map_identifiers.find(word) == map_identifiers.end()) {//встретили слово первый раз
+							String^ leksema = gcnew String(word.c_str());
+							String^ code_leks = gcnew String(word.c_str());
+
+							map_identifiers[word] = cnt_identifiers;//занесли в мапу
+
+							this->identifiers_table->Rows->Add(cnt_identifiers, leksema, code_leks);//заносим в таблицу
+
+							int num_table = 2;
+							int num_record = cnt_identifiers;
+							my_token::token tok{ num_table, num_record };
+							tokens.push_back(tok);
+
+							cnt_identifiers++;
+						}
+						else {
+							//заносим в вектор токенов
+							for (auto i : map_identifiers) {
+								if (i.first == word) {
+									int num_table = 2;
 									int num_record = i.second;
 									my_token::token tok{ num_table, num_record };
 									tokens.push_back(tok);
 								}
 							}
 
-						}
-						break;
-					case state::S11:// == != <= >=
-					case state::S14:
-						//map_comp_sign[word] = word;
-						break;
+						}			
+						this->PseudoCode->Text += "id";
 
-					default:
-					//	map_identifiers[word] = "id";
 						break;
 					}
 
@@ -2450,7 +2975,39 @@ namespace leks {
 				case state::S0://распознаем разделитель
 					word += code[i];
 					st = state::S5;
-					//map_separator_sign[word] = word;
+					if (map_separator_sign.find(word) == map_separator_sign.end()) {//встретили слово первый раз
+						String^ leksema = gcnew String(word.c_str());
+						String^ code_leks = gcnew String(word.c_str());
+
+						map_separator_sign[word] = cnt_sep_sign;//занесли в мапу
+
+						this->separators_table->Rows->Add(cnt_sep_sign, leksema, code_leks);//заносим в таблицу
+
+						int num_table = 6;
+						int num_record = cnt_sep_sign;
+						my_token::token tok{ num_table, num_record };
+						tokens.push_back(tok);
+
+						cnt_sep_sign++;
+
+						this->PseudoCode->Text += leksema;
+
+					}
+					else {
+						//заносим в вектор токенов
+						for (auto i : map_separator_sign) {
+							if (i.first == word) {
+								int num_table = 6;
+								int num_record = i.second;
+								my_token::token tok{ num_table, num_record };
+								tokens.push_back(tok);
+							}
+						}
+						String^ leksema = gcnew String(word.c_str());
+						this->PseudoCode->Text += leksema;
+
+
+					}				
 					break;
 
 				case state::S2:
@@ -2483,7 +3040,7 @@ namespace leks {
 						//заносим в вектор токенов
 						for (auto i : map_constants) {
 							if (i.first == word) {
-								int num_table = 1;
+								int num_table = 3;
 								int num_record = i.second;
 								my_token::token tok{ num_table, num_record };
 								tokens.push_back(tok);
@@ -2491,11 +3048,43 @@ namespace leks {
 						}
 
 					}
+
+					this->PseudoCode->Text += "const";
+
 					i--;
 					break;
 
 				case state::SI: //распознаем идентификатор
-				//	map_identifiers[word] = "id";
+					if (map_identifiers.find(word) == map_identifiers.end()) {//встретили слово первый раз
+						String^ leksema = gcnew String(word.c_str());
+						String^ code_leks = gcnew String(word.c_str());
+
+						map_identifiers[word] = cnt_identifiers;//занесли в мапу
+
+						this->identifiers_table->Rows->Add(cnt_identifiers, leksema, code_leks);//заносим в таблицу
+
+						int num_table = 2;
+						int num_record = cnt_identifiers;
+						my_token::token tok{ num_table, num_record };
+						tokens.push_back(tok);
+
+						cnt_identifiers++;
+					}
+					else {
+						//заносим в вектор токенов
+						for (auto i : map_identifiers) {
+							if (i.first == word) {
+								int num_table = 2;
+								int num_record = i.second;
+								my_token::token tok{ num_table, num_record };
+								tokens.push_back(tok);
+							}
+						}
+
+					}
+
+					this->PseudoCode->Text += "id";
+
 					i--;
 					break;
 				case state::SKEY:
@@ -2515,6 +3104,9 @@ namespace leks {
 						tokens.push_back(tok);
 
 						cnt_keywords++;
+
+						this->PseudoCode->Text += leksema;
+
 					}
 					else {
 
@@ -2527,6 +3119,10 @@ namespace leks {
 								tokens.push_back(tok);
 							}
 						}
+
+						String^ leksema = gcnew String(word.c_str());
+						this->PseudoCode->Text += leksema;
+
 						
 					}
 					i--;
@@ -2551,24 +3147,64 @@ namespace leks {
 						tokens.push_back(tok);
 
 						cnt_op_sign++;
+
+						this->PseudoCode->Text += leksema;
+
 					}
 					else {
 						//заносим в вектор токенов
 						for (auto i : map_op_sign) {
 							if (i.first == word) {
-								int num_table = 1;
+								int num_table = 4;
 								int num_record = i.second;
 								my_token::token tok{ num_table, num_record };
 								tokens.push_back(tok);
 							}
 						}
 
+						String^ leksema = gcnew String(word.c_str());
+						this->PseudoCode->Text += leksema;
+
+
 					}
 					i--;
 					break;
 				case state::S11:// == != <= >=
 				case state::S14:
-					//map_comp_sign[word] = word;
+					if (map_comp_sign.find(word) == map_comp_sign.end()) {//встретили слово первый раз
+						String^ leksema = gcnew String(word.c_str());
+						String^ code_leks = gcnew String(word.c_str());
+
+						map_comp_sign[word] = cnt_comp_sign;//занесли в мапу
+
+						this->comp_sign_table->Rows->Add(cnt_comp_sign, leksema, code_leks);//заносим в таблицу
+
+						int num_table = 5;
+						int num_record = cnt_comp_sign;
+						my_token::token tok{ num_table, num_record };
+						tokens.push_back(tok);
+
+						cnt_comp_sign++;
+
+						this->PseudoCode->Text += leksema;
+
+					}
+					else {
+						//заносим в вектор токенов
+						for (auto i : map_comp_sign) {
+							if (i.first == word) {
+								int num_table = 5;
+								int num_record = i.second;
+								my_token::token tok{ num_table, num_record };
+								tokens.push_back(tok);
+							}
+						}
+						String^ leksema = gcnew String(word.c_str());
+						this->PseudoCode->Text += leksema;
+
+
+					}
+
 					i--;
 					break;
 
@@ -2577,7 +3213,34 @@ namespace leks {
 					break;
 
 				default:
-					//map_identifiers[word] = "id";
+					if (map_identifiers.find(word) == map_identifiers.end()) {//встретили слово первый раз
+						String^ leksema = gcnew String(word.c_str());
+						String^ code_leks = gcnew String(word.c_str());
+
+						map_identifiers[word] = cnt_identifiers;//занесли в мапу
+
+						this->identifiers_table->Rows->Add(cnt_identifiers, leksema, code_leks);//заносим в таблицу
+
+						int num_table = 2;
+						int num_record = cnt_identifiers;
+						my_token::token tok{ num_table, num_record };
+						tokens.push_back(tok);
+
+						cnt_identifiers++;
+					}
+					else {
+						//заносим в вектор токенов
+						for (auto i : map_identifiers) {
+							if (i.first == word) {
+								int num_table = 2;
+								int num_record = i.second;
+								my_token::token tok{ num_table, num_record };
+								tokens.push_back(tok);
+							}
+						}
+
+					}
+					this->PseudoCode->Text += "id";
 					i--;
 					break;
 				}
@@ -2593,25 +3256,119 @@ namespace leks {
 		}
 
 		//и если конечный символ не был разделителем определяем что за лексема была последней и пишем ее
-#if 0
+#if 1
 		if (st != state::S0) {
+			String^ err = gcnew String(word.c_str());
+
 			switch (st)
 			{
 			case state::S0://распознаем разделитель
 				st = state::S5;
-				map_separator_sign[word] = word;
+				if (map_separator_sign.find(word) == map_separator_sign.end()) {//встретили слово первый раз
+					String^ leksema = gcnew String(word.c_str());
+					String^ code_leks = gcnew String(word.c_str());
+
+					map_separator_sign[word] = cnt_sep_sign;//занесли в мапу
+
+					this->separators_table->Rows->Add(cnt_sep_sign, leksema, code_leks);//заносим в таблицу
+
+					int num_table = 6;
+					int num_record = cnt_sep_sign;
+					my_token::token tok{ num_table, num_record };
+					tokens.push_back(tok);
+
+					cnt_sep_sign++;
+
+					this->PseudoCode->Text += leksema;
+				}
+				else {
+					//заносим в вектор токенов
+					for (auto i : map_separator_sign) {
+						if (i.first == word) {
+							int num_table = 6;
+							int num_record = i.second;
+							my_token::token tok{ num_table, num_record };
+							tokens.push_back(tok);
+						}
+					}
+					String^ leksema = gcnew String(word.c_str());
+					this->PseudoCode->Text += leksema;
+				}
 				break;
 
+			case state::S2:
+			case state::S3:	//ошибка в константе 10e+
+			case state::S1DOT:
+			case state::SERR:
+				this->ErrorsTextBox->Text += "Неверно введенная константа: " + err;
+				this->ErrorsTextBox->Text += "\n";
+				err = "";
+				break;
 			case state::S1:	//распознаем константу
-				map_constants[word] = "const";
+				if (map_constants.find(word) == map_constants.end()) {//встретили слово первый раз
+					String^ leksema = gcnew String(word.c_str());
+					String^ code_leks = gcnew String(word.c_str());
 
+					map_constants[word] = cnt_consts;//занесли в мапу
+
+					this->constants_table->Rows->Add(cnt_consts, leksema, code_leks);//заносим в таблицу
+
+					int num_table = 3;
+					int num_record = cnt_consts;
+					my_token::token tok{ num_table, num_record };
+					tokens.push_back(tok);
+
+					cnt_consts++;
+				}
+				else {
+
+					//заносим в вектор токенов
+					for (auto i : map_constants) {
+						if (i.first == word) {
+							int num_table = 3;
+							int num_record = i.second;
+							my_token::token tok{ num_table, num_record };
+							tokens.push_back(tok);
+						}
+					}
+
+				}
+				this->PseudoCode->Text += "const";
 				break;
 
 			case state::SI: //распознаем идентификатор
-				map_identifiers[word] = "id";
+				if (map_identifiers.find(word) == map_identifiers.end()) {//встретили слово первый раз
+					String^ leksema = gcnew String(word.c_str());
+					String^ code_leks = gcnew String(word.c_str());
 
+					map_identifiers[word] = cnt_identifiers;//занесли в мапу
+
+					this->identifiers_table->Rows->Add(cnt_identifiers, leksema, code_leks);//заносим в таблицу
+
+					int num_table = 2;
+					int num_record = cnt_identifiers;
+					my_token::token tok{ num_table, num_record };
+					tokens.push_back(tok);
+
+					cnt_identifiers++;
+				}
+				else {
+					//заносим в вектор токенов
+					for (auto i : map_identifiers) {
+						if (i.first == word) {
+							int num_table = 2;
+							int num_record = i.second;
+							my_token::token tok{ num_table, num_record };
+							tokens.push_back(tok);
+						}
+					}
+
+				}
+				this->PseudoCode->Text += "id";
 				break;
 			case state::SKEY:
+
+
 				if (map_keywords.find(word) == map_keywords.end()) {//встретили слово первый раз
 					String^ leksema = gcnew String(word.c_str());
 					String^ code_leks = gcnew String(word.c_str());
@@ -2626,10 +3383,11 @@ namespace leks {
 					tokens.push_back(tok);
 
 					cnt_keywords++;
+
+					this->PseudoCode->Text += leksema;
 				}
-				else {//слово уже встречалось
-					String^ leksema = gcnew String(word.c_str());
-					String^ code_leks = gcnew String(word.c_str());
+				else {
+
 					//заносим в вектор токенов
 					for (auto i : map_keywords) {
 						if (i.first == word) {
@@ -2639,9 +3397,10 @@ namespace leks {
 							tokens.push_back(tok);
 						}
 					}
+					String^ leksema = gcnew String(word.c_str());
+					this->PseudoCode->Text += leksema;
 
 				}
-
 				break;
 			case state::S6:
 			case state::S7:
@@ -2649,58 +3408,118 @@ namespace leks {
 			case state::S9:
 			case state::S10:
 			case state::S13:// + - * / = !
-				map_op_sign[word] = word;
+				if (map_op_sign.find(word) == map_op_sign.end()) {//встретили слово первый раз
+					String^ leksema = gcnew String(word.c_str());
+					String^ code_leks = gcnew String(word.c_str());
 
+					map_op_sign[word] = cnt_op_sign;//занесли в мапу
+
+					this->op_sign_table->Rows->Add(cnt_op_sign, leksema, code_leks);//заносим в таблицу
+
+					int num_table = 4;
+					int num_record = cnt_op_sign;
+					my_token::token tok{ num_table, num_record };
+					tokens.push_back(tok);
+
+					cnt_op_sign++;
+
+					this->PseudoCode->Text += leksema;
+				}
+				else {
+					//заносим в вектор токенов
+					for (auto i : map_op_sign) {
+						if (i.first == word) {
+							int num_table = 4;
+							int num_record = i.second;
+							my_token::token tok{ num_table, num_record };
+							tokens.push_back(tok);
+						}
+					}
+					String^ leksema = gcnew String(word.c_str());
+					this->PseudoCode->Text += leksema;
+
+				}
 				break;
 			case state::S11:// == != <= >=
 			case state::S14:
-				map_comp_sign[word] = word;
+				if (map_comp_sign.find(word) == map_comp_sign.end()) {//встретили слово первый раз
+					String^ leksema = gcnew String(word.c_str());
+					String^ code_leks = gcnew String(word.c_str());
 
+					map_comp_sign[word] = cnt_comp_sign;//занесли в мапу
+
+					this->comp_sign_table->Rows->Add(cnt_comp_sign, leksema, code_leks);//заносим в таблицу
+
+					int num_table = 5;
+					int num_record = cnt_comp_sign;
+					my_token::token tok{ num_table, num_record };
+					tokens.push_back(tok);
+
+					cnt_comp_sign++;
+
+					this->PseudoCode->Text += leksema;
+				}
+				else {
+					//заносим в вектор токенов
+					for (auto i : map_comp_sign) {
+						if (i.first == word) {
+							int num_table = 5;
+							int num_record = i.second;
+							my_token::token tok{ num_table, num_record };
+							tokens.push_back(tok);
+						}
+					}
+					String^ leksema = gcnew String(word.c_str());
+					this->PseudoCode->Text += leksema;
+
+				}
+				break;
+
+			case state::SSTR:
+				this->ErrorsTextBox->Text += "Неверно введенная константа: " + err;
+				this->ErrorsTextBox->Text += "\n";
+				err = "";
 				break;
 
 			default:
-				map_identifiers[word] = "id";
+				if (map_identifiers.find(word) == map_identifiers.end()) {//встретили слово первый раз
+					String^ leksema = gcnew String(word.c_str());
+					String^ code_leks = gcnew String(word.c_str());
+
+					map_identifiers[word] = cnt_identifiers;//занесли в мапу
+
+					this->identifiers_table->Rows->Add(cnt_identifiers, leksema, code_leks);//заносим в таблицу
+
+					int num_table = 2;
+					int num_record = cnt_identifiers;
+					my_token::token tok{ num_table, num_record };
+					tokens.push_back(tok);
+
+					cnt_identifiers++;
+				}
+				else {
+					//заносим в вектор токенов
+					for (auto i : map_identifiers) {
+						if (i.first == word) {
+							int num_table = 2;
+							int num_record = i.second;
+							my_token::token tok{ num_table, num_record };
+							tokens.push_back(tok);
+						}
+					}
+
+				}
+				this->PseudoCode->Text += "id";
 				break;
 			}
-
 			word = "";
 			st = state::S0;
 		}
 
 #endif 
-		//теперь из мап пишем в таблицу
-		/*for (auto a : map_keywords) {
-			String^ leksema = gcnew String(a.first.c_str());
-			String^ code_leks = gcnew String(a.second.c_str());
-			this->keywords_table->Rows->Add(cnt_keywords++, leksema, code_leks);
-		}
-		for (auto a : map_identifiers) {
-			String^ identifier = gcnew String(a.first.c_str());
-			String^ code_identifier = gcnew String(a.second.c_str());
-			this->identifiers_table->Rows->Add(cnt_identifiers++, identifier, code_identifier);
-		}
-		for (auto a : map_constants) {
-			String^ constanta = gcnew String(a.first.c_str());
-			String^ code_identifier = gcnew String(a.second.c_str());
-			this->constants_table->Rows->Add(cnt_consts++, constanta, code_identifier);
-		}
-		for (auto a : map_op_sign) {
-			String^ sign = gcnew String(a.first.c_str());
-			String^ code_sign = gcnew String(a.second.c_str());
-			this->op_sign_table->Rows->Add(cnt_op_sign++, sign, code_sign);
-		}
-		for (auto a : map_comp_sign) {
-			String^ comp_sign = gcnew String(a.first.c_str());
-			String^ code_comp_sign = gcnew String(a.second.c_str());
-			this->comp_sign_table->Rows->Add(cnt_comp_sign++, comp_sign, code_comp_sign);
-		}
-		for (auto a : map_separator_sign) {
-			String^ sep_sign = gcnew String(a.first.c_str());
-			String^ code_sep_sign = gcnew String(a.second.c_str());
-			this->separators_table->Rows->Add(cnt_sep_sign++, sep_sign, code_sep_sign);
-		}
-*/
+
 		//пишем дескрипторный код
+		//токены хранятся в std::vector<my_token::token>
 		for (auto a : tokens) {
 			this->DescCode->Text += "[" + a.num_table + "," + a.num_record + "] ";
 		}
