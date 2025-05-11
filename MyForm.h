@@ -814,7 +814,8 @@ namespace leks {
 			   S0, S1, S1DOT, S2, S3, SE, S5, S6, S7, S8, S9, S10, S11, S13, S14, S15, S16, S17, S18, S19, S20, S21, S22, S23, S24, S25, S26, S27, S28, S29,
 			   S30, S31, S32, S33, S34, S35, S36, S37, S38, S39, S40, S41, S42, S43, S44, S45, S46, S47, S48, S49, S50, S51, S52, S53, S54, S55, S56, S57,
 			   S58, S59, S60, S61, S62, S63, S64, S65, S66, S67, S68, S69, S70, S71, S72, S73, S74, S75, S76, S77, S78, S79, S80, S81, S82, S83, S84, S85, S86, S87,
-			   S88, S89, S90, S91, S92, S93, S94, S95, S96, S97, S98, S99, S100, S101, S102, S103, S104, S105, S106, S107, S108, S109, S110, S111, S112, S113,
+			   S88, S89, S90, S91, S92, S93, S94, S95, S96, S97, S98, S99, S100, S101, S102, S103, S104, S105, S106, S107, S108, S109, S110, S111, S112, S113, S114, S115, S116,
+			   S117, S118, S119, S120,
 			   SI, SKEY, SSTR, SERR
 
 		   } st = state::S0;
@@ -915,6 +916,10 @@ namespace leks {
 						word += code[i];
 						st = state::SKEY;
 						break;
+					case state::S120://include
+						word += code[i];
+						st = state::SKEY;
+						break;
 					case state::S1:	//10e+3
 						word += code[i];
 						st = state::S2;
@@ -977,6 +982,10 @@ namespace leks {
 					else if (st == state::S106) {
 						word += code[i];
 						st = state::S107;
+					}
+					else if (st == state::S117) {
+						word += code[i];
+						st = state::S118;
 					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {//это нужно для распознавания --l l++ и т.д
 						break;;
@@ -1073,6 +1082,10 @@ namespace leks {
 						word += code[i];
 						st = state::SKEY;
 					}
+					else if (st == state::S114) {
+						word += code[i];
+						st = state::SKEY;
+					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
 					}
@@ -1119,6 +1132,14 @@ namespace leks {
 					else if (st == state::S104) {
 						word += code[i];
 						st = state::S105;
+					}
+					else if (st == state::S115) {
+						word += code[i];
+						st = state::S116;
+					}
+					else if (st == state::S118) {
+						word += code[i];
+						st = state::S119;
 					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
@@ -1216,6 +1237,10 @@ namespace leks {
 					else if (st == state::S112) {//private
 						word += code[i];
 						st = state::S113;
+					}
+					else if (st == state::S116) {//cout
+						word += code[i];
+						st = state::SKEY;
 					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
@@ -1331,6 +1356,10 @@ namespace leks {
 						word += code[i];
 						st = state::S28;
 					}
+					else if (st == state::S33) {
+						word += code[i];
+						st = state::S115;
+					}
 					else if (st == state::S28) {
 						word += code[i];
 						st = state::S29;
@@ -1436,6 +1465,10 @@ namespace leks {
 						word += code[i];
 						st = state::SKEY;
 					}
+					else if (st == state::S42) {
+						word += code[i];
+						st = state::S117;
+					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
 					}
@@ -1477,6 +1510,10 @@ namespace leks {
 					if (st == state::S0) {
 						word += code[i];
 						st = state::S41;
+					}
+					else if (st == state::S33) {
+						word += code[i];
+						st = state::S114;
 					}
 					else if (st == state::S54) {
 						word += code[i];
@@ -1532,6 +1569,10 @@ namespace leks {
 					else if (st == state::S99) {
 						word += code[i];
 						st = state::SKEY;
+					}
+					else if (st == state::S119) {
+						word += code[i];
+						st = state::S120;
 					}
 					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
 						break;;
@@ -1650,6 +1691,22 @@ namespace leks {
 						st = state::SI;
 					}
 					break;
+				case 'y':
+					if (st == state::S89) {
+						word += code[i];
+						st = state::SKEY;
+					}
+					else if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {
+						break;;
+					}
+					else if (st == state::SSTR || st == state::SERR) {
+						break;
+					}
+					else {
+						st = state::SI;
+					}
+					break;
+
 				default:
 					if (st == state::S10 || st == state::S6 || st == state::S7 || st == state::S8 || st == state::S9 || st == state::S11 || st == state::S13 || st == state::S14) {// распознать ==a --a ++a <a ...
 						break;
@@ -2479,7 +2536,35 @@ namespace leks {
 			else if (code[i] == '<' || code[i] == '>') {
 				switch (st) {
 				case state::SI: //a< b> и тд...
-					//map_identifiers[word] = "id";
+					if (map_identifiers.find(word) == map_identifiers.end()) {//встретили слово первый раз
+						String^ leksema = gcnew String(word.c_str());
+						String^ code_leks = gcnew String(word.c_str());
+
+						map_identifiers[word] = cnt_identifiers;//занесли в мапу
+
+						this->identifiers_table->Rows->Add(cnt_identifiers, leksema, code_leks);//заносим в таблицу
+
+						int num_table = 2;
+						int num_record = cnt_identifiers;
+						my_token::token tok{ num_table, num_record };
+						tokens.push_back(tok);
+
+						cnt_identifiers++;
+					}
+					else {
+						//заносим в вектор токенов
+						for (auto i : map_identifiers) {
+							if (i.first == word) {
+								int num_table = 2;
+								int num_record = i.second;
+								my_token::token tok{ num_table, num_record };
+								tokens.push_back(tok);
+							}
+						}
+
+					}
+					this->PseudoCode->Text += "id";
+
 					word = "";
 					st = state::S0;
 					i--;
@@ -2968,7 +3053,7 @@ namespace leks {
 			}
 
 			//пришел разделитель смотрим какое состояние и пишем лексему если конечное
-			else if (code[i] == '\n' || code[i] == ' ' || code[i] == ',' || code[i] == '(' || code[i] == ')' || code[i] == '{' || code[i] == '}' || code[i] == '[' || code[i] == ']' || code[i] == ':' || code[i] == ';' || code[i] == '?') {
+			else if (code[i] == '\n' || code[i] == ' ' || code[i] == ',' || code[i] == '(' || code[i] == ')' || code[i] == '{' || code[i] == '}' || code[i] == '[' || code[i] == ']' || code[i] == ':' || code[i] == ';' || code[i] == '?' || code[i] == '#') {
 				String^ err = gcnew String(word.c_str());
 				switch (st)
 				{
